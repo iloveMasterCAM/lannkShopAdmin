@@ -7,7 +7,7 @@
         <!--<el-button plain icon="el-icon-delete" style="margin-bottom: 8px" @click="delSel">删除</el-button>-->
         <div class="pl"  @click="goAdd">
           <i class="iconfont icon-tianjia1"></i>
-          <span>批量添加</span>
+          <span>添加</span>
         </div>
         <div class="pl"  @click="delSel">
           <i class="iconfont icon-shanchu"></i>
@@ -33,7 +33,7 @@
                 <el-table-column
                   prop="name"
                   label="	规格值"
-                  width="900">
+                  width="800">
                   <template scope="scope">
                     <span  v-show="!item.src" :title="item.text" v-html="item.text" v-for="(item,index) in scope.row.name" :key="index" class="span"></span>
                     <img   v-show="img.src"   :src="img.src" :title="img.text" v-for="(img,index) in scope.row.name" :key="index" class="img">
@@ -232,7 +232,11 @@
 
 <style scoped>
   .page-title{
-    font-size:18px;
+    font-size:16px;
+    font-weight: normal;
+    color:#647787;
+    margin-bottom:40px;
+
   }
   .span{
     border:1px solid #eee;
@@ -250,8 +254,8 @@
   }
   .container-fluid{
       background-color:#fff;
-      padding:20px;
-      margin-left: 12px;
+      padding:40px;
+      margin-left:12px;
   }
   .pl{
     display: inline-block;

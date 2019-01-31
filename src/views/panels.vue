@@ -120,7 +120,7 @@
         </div>
       </div>
     </div>
-    <!-- 
+    <!--
 	起步值	起步价	加值	加价
     -->
     <div id="detail" v-show="isShow == 2">
@@ -203,8 +203,10 @@
     </div>
   </div>
 </template>
+
 <style>
 #temp table {
+
   border-collapse: collapse;
   margin-top: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -328,7 +330,7 @@ export default {
     };
   },
   methods: {
-    /* 
+    /*
  /deliveryTemp/saveFee
 */
     allEdit(i) {

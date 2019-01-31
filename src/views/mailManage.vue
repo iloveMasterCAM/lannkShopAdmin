@@ -6,7 +6,7 @@
         <!--<el-button plain icon="el-icon-plus" style="margin-bottom: 8px" @click="goAdd">新增</el-button>-->
         <div class="pl"  @click="goAdd">
           <i class="iconfont icon-tianjia1"></i>
-          <span>批量添加</span>
+          <span>添加</span>
         </div>
         <div class="pl"  @click="delSel">
           <i class="iconfont icon-shanchu"></i>
@@ -41,7 +41,7 @@
           <div class="line">
             |
           </div>
-          <div class="item" style="-webkit-transform: rotate(180deg) translateY(-6px);width:18px;height:18px;">
+          <div class="item" style="-webkit-transform: rotate(180deg) translateY(-2px);width:18px;height:18px;">
             <i class="iconfont icon-daoru"></i>
           </div>
           <div class="line">
