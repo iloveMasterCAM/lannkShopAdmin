@@ -17,6 +17,9 @@ import activity from '../views/activity'
 import groupBuy from '../views/groupBuy'
 import addGroupGoods from "@/views/addGroupGoods"
 import editGroup from '@/views/editGroup'
+import order from '../views/order'
+import orderDetail from '../views/orderDetail'
+
 
 let getCookie = function (c_name) {
   if (document.cookie.length > 0) {
@@ -45,6 +48,11 @@ Vue.use(Router)
         component: index
       },
       {
+        path: '/order',
+        name: 'order',
+        component: order
+      },
+      {
         path: '/groupBuy',
         name: 'groupBuy',
         component: groupBuy
@@ -58,6 +66,17 @@ Vue.use(Router)
         path: '/groupBuy/editGroup',
         name: 'editGroup',
         component: editGroup
+      },
+      {
+
+        path: '/orderDetail',
+        name: 'orderDetail',
+        component: orderDetail
+      },
+      {
+        path: '/addSpec',
+        name: 'addSpec',
+        component: addSpec
       },
       {
         path: '/activity',

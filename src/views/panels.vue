@@ -16,7 +16,7 @@
           <th>计费类型</th>
           <th>管理操作</th>
         </tr>
-        <tr v-for="(item,index) in list" :key="index">
+        <tr class="td" v-for="(item,index) in list" :key="index">
           <td>
             <el-checkbox v-model="item.checked">{{index+1}}</el-checkbox>
           </td>
@@ -35,8 +35,8 @@
             <el-radio v-show="item.show" v-model="item.type" label="1">按重量</el-radio>
           </td>
           <td>
-            <span @click="detail(item.id)">[详情]</span>
-            <span @click="delClassify(item.id)">[删除]</span>
+            <span @click="detail(item.id)">详情</span>
+            <span @click="delClassify(item.id)" class="del">删除</span>
             <span @click="allEdit(index)" v-text="item.editTXT"></span>
           </td>
         </tr>
@@ -69,20 +69,11 @@
       <div class="el-row">
         <div class="el-col-2">&nbsp;</div>
         <div class="el-col-10">
-          <el-button class="pull-right" @click="confirm" type="primary">添加模板</el-button>
+          <el-button class="pull-right" @click="confirm(false)" type="primary">添加模板</el-button>
         </div>
       </div>
     </div>
-    <!-- 
-id	主键 int	运费id
-regionId	Int	区域id (市id)
-startValue	Int	起步值
-startFee	Int	起步价
-addValue	Int	加值
-addFee	itn	加价
 
-
-    -->
     <div id="addDetail" v-show="isShow == 3">
       <p>
         <el-button @click="back" type="primary">返回</el-button>
@@ -125,11 +116,11 @@ addFee	itn	加价
       <div class="el-row">
         <div class="el-col-2">&nbsp;</div>
         <div class="el-col-15">
-          <el-button class="pull-right" @click="confirm('detail')" type="primary">添加模板</el-button>
+          <el-button class="pull-right" @click="confirm(true)" type="primary">添加模板</el-button>
         </div>
       </div>
     </div>
-    <!-- 
+    <!--
 	起步值	起步价	加值	加价
     -->
     <div id="detail" v-show="isShow == 2">
@@ -146,7 +137,7 @@ addFee	itn	加价
           <th>加价</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(Item,index) in detailData" :key="index">
+        <tr class="td" v-for="(Item,index) in detailData" :key="index">
           <td>
             <el-select
               v-model="Item.shen"
@@ -205,16 +196,24 @@ addFee	itn	加价
           </td>
           <td>
             <span @click="edit(index,Item.id)" v-text="Item.txt"></span>
-            <span @click="del(index,Item.id)">[删除]</span>
+            <span class="del" @click="del(index,Item.id)">删除</span>
           </td>
         </tr>
       </table>
     </div>
   </div>
 </template>
-<style>
+<style scoped>
+table {
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
 #addDetail > div {
   line-height: 40px;
+}
+#add>p{
+  margin-bottom: 20px;
 }
 #add > div,
 #addDetail > div {
@@ -258,17 +257,37 @@ addFee	itn	加价
   padding-bottom: 0;
   background: #fff;
 }
+#list {
+  padding: 20px;
+}
 #add,
 #detail,
 #addDetail {
   padding-bottom: 30px;
 }
-#list td {
+td {
   line-height: 45px;
+  text-align: center;
 }
-#list td span{
-  color: #007bc1;
+.td {
+  border-bottom: 1px solid #eee;
+}
+td span {
+  color: #328ffe;
   cursor: pointer;
+  padding: 0 10px;
+}
+td .del {
+  color: #fc3535;
+}
+td .el-checkbox__inner {
+  padding: 0;
+}
+th {
+  line-height: 45px;
+  background: #f3f5f7;
+  text-align: center;
+  color: #647787;
 }
 </style>
 <script>
@@ -283,8 +302,9 @@ export default {
         isType: "0",
         title: ""
       },
+      delBox: [],
       readonly: true,
-      txt: "[修改]",
+      txt: "修改",
       list: [],
       detailData: [],
       isShow: 0,
@@ -306,7 +326,7 @@ export default {
     };
   },
   methods: {
-    /* 
+    /*
  /deliveryTemp/saveFee
 */
     allEdit(i) {
@@ -324,9 +344,9 @@ export default {
             console.log(r);
           }
         );
-        this.list[i].editTXT = "[修改]";
+        this.list[i].editTXT = "修改";
       } else {
-        this.list[i].editTXT = "[保存]";
+        this.list[i].editTXT = "保存";
       }
     },
     adddetail() {
@@ -335,31 +355,96 @@ export default {
     },
 
     delAll() {
-      let d = [];
+      let d = [],
+        that = this;
       this.list.map(v => {
         if (v.checked) {
+          d.push(v.id);
+        }
+      });
+      if (d.length > 0) {
+        this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            that.ajax.post("deliveryTemp/deleteTemp", { ids: d }, function(r) {
+              if (r.s) {
+                that.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+                that.uplist("list");
+              }
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
+      }
+    },
+    uplist(key) {
+      let d = [];
+      this[key].map((v, i) => {
+        if (!v.checked) {
           d.push(v);
         }
       });
-      console.log(d);
+      this[key] = d;
     },
     addClassify() {
       this.isShow = 1;
     },
     //删除 模块
     delClassify(id) {
+      this.$confirm("此操作将永久删除该模板, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.ajax.post("deliveryTemp/deleteTemp", { ids: [id] }, function(r) {
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+      return;
       //deliveryTemp/deleteTemp
-      this.ajax.post("deliveryTemp/deleteTemp", { ids: [id] }, function(r) {
-        console.log(r);
-      });
     },
-    del(i,id){
-      //deliveryTemp/deleteFee
-        let that = this;
-      this.ajax.post("deliveryTemp/deleteFee", { ids: [id] }, function(r) {
-        console.log(r);
-        that.detailData.splice(i,1)
-      });
+    del(i, id) {
+      let that = this;
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.ajax.post("deliveryTemp/deleteFee", { ids: [id] }, function(r) {
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+            that.detailData.splice(i, 1);
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     //全选
     allCheckbox() {
@@ -375,6 +460,7 @@ export default {
     },
     //确定添加
     confirm(key) {
+      let that = this;
       if (key) {
         let d = this.addDetail;
         console.log(d);
@@ -388,6 +474,7 @@ export default {
           alert("参数不全");
           return;
         }
+
         this.axios.post(
           "deliveryTemp/saveFee",
           {
@@ -400,23 +487,30 @@ export default {
           },
           function(r) {
             console.log(r);
+            if (r.s) {
+              that.isShow = 0;
+            }
           }
         );
       } else {
         let d = this.add;
-        this.axios.post(
-          "deliveryTemp/saveTemp",
-          { free: d.isFree, type: d.isType, title: d.title },
-          function(r) {
-            console.log(r);
+        let data = { free: d.isFree, type: d.isType, title: d.title };
+        if (!d.isFree || !d.isType || !d.title) {
+          alert("参数不全");
+          return;
+        }
+        this.axios.post("deliveryTemp/saveTemp", data, function(r) {
+          if (r.s) {
+            that.list.push(data);
+            that.isShow = 0;
           }
-        );
+        });
       }
     },
     edit(i, id) {
       this.detailData[i].readonly = !this.detailData[i].readonly;
       if (this.detailData[i].readonly) {
-        this.detailData[i].txt = "[修改]";
+        this.detailData[i].txt = "修改";
         if (this.detailData[i].address.length >= 1) {
           this.axios.post(
             "deliveryTemp/saveFee",
@@ -434,13 +528,13 @@ export default {
           );
         }
       } else {
-        this.detailData[i].txt = "[保存]";
+        this.detailData[i].txt = "保存";
       }
     },
     back() {
       this.isShow = 0;
     },
-    
+
     detail(id) {
       this.isShow = 2;
 
@@ -448,19 +542,24 @@ export default {
       // deliveryTemp/getListByPage
       this.axios.post("deliveryTemp/getFeesByTid", { id: id }, function(r) {
         that.addDetail.detailId = id;
-    
+
         r.d.deliveryFees.map(v => {
-        
-          that.$set(v, "shen", that.s_province( parseInt(v.regionId / 1000) * 1000));
+          that.$set(
+            v,
+            "shen",
+            that.s_province(parseInt(v.regionId / 1000) * 1000)
+          );
           that.$set(v, "Ctiy", that.s_City(v.regionId));
           that.$set(v, "qu", "请选择");
-          that.$set(v, "txt", "[修改]");
+          that.$set(v, "txt", "修改");
           that.$set(v, "readonly", true);
+          that.$set(v, "address", [
+            parseInt(v.regionId / 1000) * 1000,
+            v.regionId
+          ]);
         });
-        console.log(r.d.deliveryFees[0])
+        console.log(r.d.deliveryFees[0]);
         that.detailData = r.d.deliveryFees;
-   
-        
       });
     },
     getCtiyData(callback) {
@@ -513,17 +612,16 @@ export default {
       });
     }, // 选省
     choseProvince: function(e, index) {
-     
       this.s_province(e, index);
     },
     s_province(e, index) {
       for (var index2 in this.province) {
         if (e == this.province[index2].id) {
           let con = this.detailData[index];
-           if (!index && index !=0) {
+          if (!index && index != 0) {
             con = this;
           } else {
-            con.address = [ this.province[index2].children[0].id ];
+            con.address = [this.province[index2].children[0].id];
           }
           this.shi1 = this.province[index2].children;
           con.Ctiy = this.province[index2].children[0].value;
@@ -538,7 +636,6 @@ export default {
     },
     // 选市
     choseCity: function(e, index) {
-
       this.s_City(e, index);
       if (!index) {
         this.addDetail.regionId = e;
@@ -548,7 +645,7 @@ export default {
       for (var index3 in this.city) {
         if (e == this.city[index3].id) {
           let con = this.detailData[index];
-          if (!index && index !=0) {
+          if (!index && index != 0) {
             con = this;
           } else {
             con.address = [e];
@@ -578,7 +675,7 @@ export default {
           v.type = v.type.toString();
           that.$set(v, "show", false);
           that.$set(v, "checked", false);
-          that.$set(v, "editTXT", "[修改]");
+          that.$set(v, "editTXT", "修改");
         });
         that.list = r;
         console.log(that.list);

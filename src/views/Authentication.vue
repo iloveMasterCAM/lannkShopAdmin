@@ -45,6 +45,43 @@
                   <span class="child">电商</span>
                   <span class="child">电商</span>
                   <span class="child">电商</span>
+                   <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                   <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                   <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                   <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+                  <span class="child">电商</span>
+
                 </div>
                 <div class="bottom">
                   <span>电商</span>
@@ -147,7 +184,7 @@
 <style scoped>
 #submit {
   background: #fff;
-  margin: 40px 47px;
+  margin: 40px 200px 40px 47px;
   padding: 15px 15px;
   display: flex;
   justify-content: space-between;
@@ -232,7 +269,7 @@
 
 /* 1111111 */
 #panel {
-  padding: 0 47px;
+  padding: 0 200px 0 47px;
   min-width: 1300px;
   display: flex;
   -webkit-display: flex;
@@ -295,11 +332,11 @@
 }
 #panel .classfiy .child {
   display: inline-block;
-  padding: 0 15px;
-  height: 40px;
+  padding: 0 10px;
+  height: 30px;
   border-radius: 7px;
   background: #ccc;
-  line-height: 40px;
+  line-height: 30px;
   text-align: center;
   margin-right: 15px;
   margin-bottom: 15px;
@@ -310,9 +347,14 @@
   flex-wrap: wrap;
   align-content: flex-start;
   /* justify-content: space-around; */
-  min-height: 230px;
+  max-height: 230px;
   padding: 15px;
+  overflow-y: auto;
 }
+/* ::-webkit-scrollbar {
+    width: 2px;
+    height: px;
+} */
 #panel .classfiy .bottom {
   padding: 7px 15px;
   border-top: 1px solid #eee;
@@ -358,6 +400,10 @@ export default {
   methods: {
     fileImg(o) {
       var fileObj = o.target.files[0]; // js 获取文件对象
+      if (typeof fileObj == "undefined" || fileObj.size <= 0) {
+        alert("请选择图片");
+        return;
+      }
       var url = this.getObjectURL(fileObj); //加入文件对象
        this.$refs[o.target.name].style.backgroundImage  = "url(" + url + ")";
       if (o.target.name == "blicenseBackFile") {
@@ -365,10 +411,7 @@ export default {
       } else  {
         this.logo = fileObj;
       }
-      if (typeof fileObj == "undefined" || fileObj.size <= 0) {
-        alert("请选择图片");
-        return;
-      }
+      
     },
     submitF() {
       let address = this.address.join('-')
