@@ -506,7 +506,6 @@ export default {
       }
       }
     //  console.log(this.province[index2].value)
-     
     },
     // 选市
     choseCity: function(e) {

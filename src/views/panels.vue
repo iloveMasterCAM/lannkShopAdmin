@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" id="temp">
     <!-- MAIN CONTENT -->
     <div class id="list" v-show="isShow == 0">
       <p>
@@ -204,7 +204,7 @@
   </div>
 </template>
 <style>
-table {
+#temp table {
   border-collapse: collapse;
   margin-top: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -212,7 +212,7 @@ table {
 #addDetail > div {
   line-height: 40px;
 }
-#add>p{
+#add > p {
   margin-bottom: 20px;
 }
 #add > div,
@@ -265,31 +265,33 @@ table {
 #addDetail {
   padding-bottom: 30px;
 }
-td {
+#temp td {
   line-height: 45px;
   text-align: center;
 }
-.td {
+#temp  .td {
   border-bottom: 1px solid #eee;
 }
-td span {
+#temp  td span {
   color: #328ffe;
   cursor: pointer;
   padding: 0 10px;
 }
-td .del {
+#temp td .del {
   color: #fc3535;
 }
-td .el-checkbox__inner {
+#temp td .el-checkbox__inner {
   padding: 0;
 }
-th {
+#temp th {
   line-height: 45px;
   background: #f3f5f7;
   text-align: center;
   color: #647787;
 }
 </style>
+
+
 <script>
 export default {
   data() {
