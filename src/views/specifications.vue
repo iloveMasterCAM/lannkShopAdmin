@@ -141,12 +141,9 @@
         delSel(){
             //this.multipleSelectionId
           var data = new FormData();
-
           data.append("ids",this.multipleSelectionId);
           console.log(data.get('ids'));
           axios.post('http://192.168.1.2:8080/shops/deleteGoodsSpecByIds.do',
-
-
             data)
             .then((res)=> {
               if(res.data.S===1){

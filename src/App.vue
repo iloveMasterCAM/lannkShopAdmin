@@ -37,6 +37,7 @@ export default {
         {path:'/shop',name:'我的店铺',icon:'lnr lnr-home'},
         {path:'/profile',name:'商品分类',icon:'lnr lnr-home'},
         {path:'/panels',name:'配送模板1',icon:'lnr lnr-home'},
+        {path:'/order',name:'订单',icon:'lnr lnr-home'},
         {path:'/specifications',name:'specifications',icon:'lnr lnr-home'},
         {path:'/mailManage',name:'mailManage',icon:'lnr lnr-home'},
         {path:'/groupBuy',name:'groupBuy',icon:'lnr lnr-home'},

@@ -4,8 +4,8 @@
     <div class="main-content" id="main-content">
       <div class="title">个人信息设置</div>
       <div class="content">
-        <div class="side  left">
-          <ul @click="tabMine">
+        <div class=" left">
+          <ul @click="tabMine" class="side">
             <li class="first">
               <i class="iconfont icon-yonghuziliaogerenxinxigerenziliao-xianxing"></i>个人信息
             </li>
@@ -22,6 +22,39 @@
               <i class="iconfont icon-bangzhu"></i>帮助
             </li>
           </ul>
+          <div class="side right">
+            <div class="headImgbg">
+              <div>
+                <!-- <p>
+                  <img
+                    class="headimg"
+                    src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2082925491,3690093855&fm=27&gp=0.jpg"
+                    alt
+                  >
+                </p> -->
+                <p>
+                  <span>你好</span>
+                  <i class="iconfont icon-nan"></i>
+                </p>
+              </div>
+            </div>
+            <ul>
+              <li>
+                <i class="iconfont icon-shijian"></i>胡建厦门
+              </li>
+              <li>
+                <i class="iconfont icon-shijian"></i>1998-10-01
+              </li>
+              <li>
+                <i class="iconfont icon-tubiao209"></i>
+                {{email}}
+              </li>
+              <li>
+                <i class="iconfont icon-shouji"></i>
+                {{PHONE|| '*******'}}
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="cneter userInfo" v-show="isShow == 0">
           <div class="clearfix">
@@ -77,8 +110,8 @@
           </div>
           <div class="clearfix">
             <div class="c_left pull-left">所属区域:</div>
-            <div class="c_right pull-right address">
-              <div class="col-xs-6">
+            <div class="c_right pull-right address el-row">
+              <div class="el-col-8">
                 <el-select v-model="province" :disabled="readonly" placeholder="请选择">
                   <el-option
                     v-for="item in options"
@@ -88,7 +121,17 @@
                   ></el-option>
                 </el-select>
               </div>
-              <div class="col-xs-6">
+              <div class="el-col-8">
+                <el-select v-model="city" :disabled="readonly" class="pull-right" placeholder="请选择">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </div>
+                 <div class="el-col-8">
                 <el-select v-model="city" :disabled="readonly" class="pull-right" placeholder="请选择">
                   <el-option
                     v-for="item in options"
@@ -104,15 +147,11 @@
             <div class="c_left pull-left">出生日期:</div>
             <div class="c_right pull-right age">
               <div>
-                <el-date-picker
-                  v-model="age"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
+                <el-date-picker v-model="age" type="date" placeholder="选择日期"></el-date-picker>
               </div>
             </div>
           </div>
-          <div class="clearfix">
+          <!-- <div class="clearfix">
             <div class="c_left pull-left">修改头像:</div>
             <div class="c_right pull-right headImg">
               <img
@@ -123,16 +162,16 @@
                 <i class="iconfont icon-bianji"></i>
               </span>
             </div>
-          </div>
+          </div>-->
           <div class="clearfix">
             <div class="c_left pull-left">&nbsp;</div>
             <div class="c_right pull-right confim">
-              <span>返回修改</span>
+              <!-- <span>返回修改</span> -->
               <span class="save" @click="save" v-show="!readonly">保存提交</span>
             </div>
           </div>
         </div>
-        <div class="cneter  passwrold" v-show="isShow == 1">
+        <div class="cneter passwrold" v-show="isShow == 1">
           <div>
             <p class="tips_box">
               旧密码
@@ -158,8 +197,8 @@
             <span class="save" @click="savePasw">确认保存</span>
           </div>
         </div>
-        <div class="cneter  phone tips_box" v-show="isShow == 2">
-          <span class="tips" v-show="tipsShowPhone" v-text="tipsValPhone"></span>
+        <div class="cneter phone tips_box" v-show="isShow == 2">
+        
 
           <div class="status">
             <div>
@@ -174,7 +213,7 @@
             </div>
           </div>
           <div class="old" v-show="step == 0">
-            <p>原始手机号</p>
+            <p>原始手机号   <span class="tips" v-show="tipsShowPhone" v-text="tipsValPhone"></span></p>
             <div class="clearfix box">
               <div class="col-xs-9">
                 <el-input v-model="setPhone.oldPhone" placeholder="请输入姓名"></el-input>
@@ -200,7 +239,7 @@
                 <el-input v-model="setPhone.newPhone" placeholder="请输入绑定新手机"></el-input>
               </div>
               <div class="col-xs-3">
-                <span class="send" v-text="setPhone.codeMsg"  @click="send"></span>
+                <span class="send" v-text="setPhone.codeMsg" @click="send"></span>
               </div>
             </div>
             <p>验证码</p>
@@ -210,7 +249,7 @@
               </div>
             </div>
             <div class="confim">
-              <span class="save"  @click="next">确定修改</span>
+              <span class="save" @click="next">确定修改</span>
             </div>
           </div>
           <div class="success text-center" v-show="step == 2">
@@ -228,38 +267,6 @@
             </div>
           </div>
         </div>
-        <div class="side right ">
-          <div class="headImgbg">
-            <div>
-              <p>
-                <img
-                  class="headimg"
-                  src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2082925491,3690093855&fm=27&gp=0.jpg"
-                  alt
-                >
-              </p>
-              <p>
-                <span>你好</span>
-                <i class="iconfont icon-nan"></i>
-              </p>
-            </div>
-          </div>
-          <ul>
-            <li>
-              <i class="iconfont icon-shijian"></i>胡建厦门
-            </li>
-            <li>
-              <i class="iconfont icon-shijian"></i>1998-10-01
-            </li>
-            <li>
-              <i class="iconfont icon-tubiao209"></i>{{email}}
-            </li>
-            <li>
-              <i class="iconfont icon-shouji"></i>
-              {{PHONE|| '*******'}}
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
     <!-- <img id="img" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3243445518,1285394533&fm=27&gp=0.jpg" alt=""> -->
@@ -267,9 +274,13 @@
   </div>
 </template>
 <style scoped>
-
+.passwrold p,
+.phone p {
+  position: relative;
+  padding-bottom: 10px;
+}
 #main-content .right .headImgbg {
-  height: 160px;
+  height: 110px;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -286,14 +297,14 @@
   height: 55px;
   border-radius: 50%;
 }
-#main-content .right ul{
+#main-content .right ul {
   padding: 0 20px;
 }
 #main-content .right ul li {
   line-height: 45px;
   border-bottom: 1px solid #eee;
 }
-#main-content .right ul li:last-child{
+#main-content .right ul li:last-child {
   border-bottom: none;
 }
 #main-content .phone .status {
@@ -301,8 +312,8 @@
   justify-content: space-between;
 }
 #main-content .phone .tips {
-  top: 70px;
-  right: 50px;
+  top: 0px;
+  left: 100px;
 }
 #main-content .phone .status span {
   display: inline-block;
@@ -390,13 +401,12 @@
   font-size: 13px;
 }
 
-
 li {
   list-style: none;
 }
 #main-content {
   font-family: "微软雅黑";
-   font-size: 14px;
+  font-size: 14px;
 }
 .main-content {
   margin-top: 30px;
@@ -409,9 +419,9 @@ li {
   color: #1e1c1c;
 }
 
-#main-content .side {
+#main-content .left {
   width: 19%;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
   min-width: 250px;
 }
 #main-content .side li i {
@@ -421,7 +431,7 @@ li {
   width: 50%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   min-height: 500px;
-
+  margin-left: 40px;
   min-width: 400px;
   min-height: 700px;
   padding: 30px 2%;
@@ -434,10 +444,12 @@ li {
   margin-top: 30px;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  /* justify-content: ; */
 }
-#main-content .left {
+#main-content .side {
   padding: 30px 15px;
+  margin-bottom: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 #main-content .left li {
   line-height: 50px;
@@ -446,10 +458,9 @@ li {
   cursor: pointer;
 }
 #main-content .left ul {
-  border: 1px solid #f3f5f7;
-  border-bottom: none;
-  margin: 0;
-  padding: 0;
+  /* border: 1px solid #f3f5f7;
+  border-bottom: none; */
+
 }
 #main-content .left li.active {
   background: #e4effd;
@@ -505,17 +516,16 @@ li {
   border: 1px solid #328ffe;
   color: #fff;
 }
-
 </style>
 <style >
-#main-content input::placeholder{
+#main-content input::placeholder {
   font-size: 12px;
 }
-#main-content input{
+#main-content input {
   height: 37px;
 }
- #main-content .address .el-select{
-  width:95%;
+#main-content .address .el-select {
+  width: 95%;
 }
 </style>
 
@@ -524,8 +534,8 @@ export default {
   data() {
     return {
       radio: false,
-      radio: '1',
-      age:'',
+      radio: "1",
+      age: "",
       isShow: 0,
       step: 0,
       options: [
@@ -558,7 +568,7 @@ export default {
       USERNAME: "",
       PHONE: "",
       NAME: "",
-      email:'',
+      email: "",
       readonly: false,
       isNameT: true,
       oldPasw: "",
@@ -567,15 +577,15 @@ export default {
       tipsVal: "密码错误！",
       tipsValPhone: "",
       tipsShow: false,
-      tipsShowPhone:false,
+      tipsShowPhone: false,
       setPhone: {
         oldPhone: "",
         newPhone: "",
         coed: "",
         codeMsg: "发送验证码"
       },
-      time:null,
-      qq_NUMBER:''
+      time: null,
+      qq_NUMBER: ""
     };
   },
   methods: {
@@ -583,7 +593,7 @@ export default {
     tabMine(evnet) {
       //getAttribute
       let num = evnet.target.getAttribute("num");
-      if (num != 3) {
+      if (num != 3 && num) {
         this.isShow = num;
       }
     },
@@ -637,13 +647,17 @@ export default {
       ///userCenter/checkPassword、
       let that = this;
 
-      this.axios.post("userCenter/checkPassword", {"USERNAME":this.USERNAME,"PASSWORD":this.oldPasw}, function(r) {
-        console.log(r);
-        if (r.s) {
-        } else {
-          that.tips("旧密码错误");
+      this.axios.post(
+        "userCenter/checkPassword",
+        { USERNAME: this.USERNAME, PASSWORD: this.oldPasw },
+        function(r) {
+          console.log(r);
+          if (r.s) {
+          } else {
+            that.tips("旧密码错误");
+          }
         }
-      });
+      );
     },
     //userCenter/updataUser.do修改用户资料 保存用户资料
     save() {
@@ -661,42 +675,63 @@ export default {
         return;
       }
 
- 
-      this.axios.post("userCenter/updataUser.do", {USERNAME:that.USERNAME,NAME:that.NAME,EMAIL:that.EMAIL,USER_ID:that.USER_ID}, function(r) {
-        console.log(r);
-        if (r.s) {
-          that.token.delCookie("token");
-          that.$router.push("/login");
+      this.axios.post(
+        "userCenter/updataUser.do",
+        {
+          USERNAME: that.USERNAME,
+          NAME: that.NAME,
+          EMAIL: that.EMAIL,
+          USER_ID: that.USER_ID
+        },
+        function(r) {
+          console.log(r);
+          if (r.s) {
+            that.token.delCookie("token");
+            that.$router.push("/login");
+          }
         }
-      });
+      );
     },
     // 修改密码
     savePasw() {
-      if (this.newPasw == this.confrimPasw) {
-        this.axios.post("userCenter/updatePassword", {USERNAME:this.USERNAME,PASSWORD:this.newPasw}, function(r) {
-          console.log(r);
-          if (r.s) {
+
+      if(this.oldPasw){
+         if (this.newPasw == this.confrimPasw) {
+        this.axios.post(
+          "userCenter/updatePassword",
+          { USERNAME: this.USERNAME, PASSWORD: this.newPasw },
+          function(r) {
+            console.log(r);
+            if (r.s) {
+            }
           }
-        });
+        );
       } else {
-        that.tips("两次密码不一致");
+        this.tips("两次密码不一致");
       }
+      }else{
+          this.tips("旧密码错误");
+      }
+     
     },
     //给旧手机号 发胆信
     send() {
       let that = this;
-      let timeKey = 'time';
-      let phone = this.setPhone.oldPhone
-      if(this.step == 1){
-          timeKey = 'stepTime'
-          phone = this.setPhone.newPhone
+      let timeKey = "time";
+      let phone = this.setPhone.oldPhone;
+      if (this.step == 1) {
+        timeKey = "stepTime";
+        phone = this.setPhone.newPhone;
       }
       if (this.isPhone(phone)) {
-         localStorage["now"] = parseInt(new Date().valueOf() / 1000);
-      if ((!this.time && !localStorage[timeKey]) ||  Math.abs(localStorage["now"]) - Math.abs(localStorage[timeKey]) > 10 ) {
-          this.axios.post("regist/sendMsg", {phone:phone}, function(r) {
-            console.log(r)
-              localStorage[timeKey] = parseInt(new Date().valueOf() / 1000);
+        localStorage["now"] = parseInt(new Date().valueOf() / 1000);
+        if (
+          (!this.time && !localStorage[timeKey]) ||
+          Math.abs(localStorage["now"]) - Math.abs(localStorage[timeKey]) > 10
+        ) {
+          this.axios.post("regist/sendMsg", { phone: phone }, function(r) {
+            console.log(r);
+            localStorage[timeKey] = parseInt(new Date().valueOf() / 1000);
             that.setPhone.codeMsg = "09/S";
             clearInterval(that.time);
             that.time = setInterval(() => {
@@ -715,47 +750,60 @@ export default {
         }
       }
     },
-    //给旧手机号 发胆信 后 下一步 
-    next(){
+    //给旧手机号 发胆信 后 下一步
+    next() {
       //regist/
-      let phone = this.setPhone.oldPhone
-      if(this.step == 1){
-        phone = this.setPhone.newPhone
+      let phone = this.setPhone.oldPhone;
+      if (this.step == 1) {
+        phone = this.setPhone.newPhone;
       }
       let that = this;
-      this.axios.post('regist/checkCode',{code:this.setPhone.code,phone:phone},function(r){
-          console.log(r)
-          if(r.s){
-            if( that.step == 0){
-              that.step = 1
-              that.setPhone.code = ''
-              that.setPhone.codeMsg = '发送验证码'
-            }else{
+      this.axios.post(
+        "regist/checkCode",
+        { code: this.setPhone.code, phone: phone },
+        function(r) {
+          console.log(r);
+          if (r.s) {
+            if (that.step == 0) {
+              that.step = 1;
+              that.setPhone.code = "";
+              that.setPhone.codeMsg = "发送验证码";
+            } else {
               //userCenter/updatePhoneByUsername
-              that.axios.post('userCenter/updatePhoneByUsername',{USERNAME:that.USERNAME,PHONE:phone},function(r){
-                if(r.s){
-                    that.step = 2
+              that.axios.post(
+                "userCenter/updatePhoneByUsername",
+                { USERNAME: that.USERNAME, PHONE: phone },
+                function(r) {
+                  if (r.s) {
+                    that.step = 2;
+                  }
                 }
-              })  
+              );
              
             }
-             
+          }else{
+             console.log(r.m)
+               that.tipsPhone(r.m);
           }
-      })
-      
+        }
+      );
     },
     //userCenter/updatePhoneByUsername
     isName() {
       let that = this;
-      this.axios.post("userCenter/selectByUsername", {username:this.USERNAME}, function(r) {
-        //  console.log(r)
-        if (that.USERNAME == that.username || r.s) {
-          that.isNameT = true;
-        } else {
-          alert("名称不可用");
-          that.isNameT = false;
+      this.axios.post(
+        "userCenter/selectByUsername",
+        { username: this.USERNAME },
+        function(r) {
+          //  console.log(r)
+          if (that.USERNAME == that.username || r.s) {
+            that.isNameT = true;
+          } else {
+            alert("名称不可用");
+            that.isNameT = false;
+          }
         }
-      });
+      );
       //
     },
     isPhone(v) {
@@ -772,7 +820,7 @@ export default {
       this.tipsShow = true;
       this.tipsVal = v;
     },
-     tipsPhone(v) {
+    tipsPhone(v) {
       this.tipsShowPhone = true;
       this.tipsValPhone = v;
     }
@@ -788,6 +836,7 @@ export default {
       if (!e) e = window.event;
       // if ((e.keyCode || e.which) == 8) {
       that.tipsShow = false;
+      that.tipsShowPhone = false;
       // }
     };
     // this.axios.post('userCenter/selectByUsername',{"username":'12121'},function(r){

@@ -56,6 +56,7 @@
               </div>
             </div>
             <div class="text-center">
+              <p>营业执照</p>
               <div class="license"></div>
               <div class="set">
                 <span>修改</span>
@@ -67,94 +68,106 @@
           <div class="heading">联系方式</div>
           <!-- el-col el-col-5  el-row -->
           <div class="el-row">
-            <div class="el-col el-col-12">
-              <p class="title">省份</p>
-              <div>
-                <el-select v-model="value" placeholder="请选择">
+            <div class="el-col-12 el-row">
+              <div class="el-row">
+                <div class="el-col el-col-8">
+                  <p class="title">省份</p>
+                  <div>
+                    <el-select
+                      v-model="sheng"
+                      name="sheng"
+                      @change="choseProvince"
+                      placeholder="省级地区"
+                    >
+                      <el-option
+                        v-for="item in province"
+                        :key="item.id"
+                        :label="item.value"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </div>
+                <div class="el-col el-col-8">
+                  <p class="title">城市</p>
+                  <div>
+                    <el-select v-model="shi" name="shi" @change="choseCity" placeholder="请选择">
                   <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in shi1"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id"
                   ></el-option>
                 </el-select>
+                  </div>
+                </div>
+                <div class="el-col el-col-8">
+                  <p class="title">区/县</p>
+                  <div>
+                    <el-select v-model="qu" name="qu" @change="choseBlock" placeholder="请选择">
+                  <el-option
+                    v-for="item in qu1"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div class="el-col el-col-12">
-              <p class="title">城市</p>
-              <div>
-                <el-select v-model="value" placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
+              <div class="el-row">
+                <div class="el-col el-col-24">
+                  <p class="title">详细地址</p>
+                  <div>
+                    <el-input placeholder="输入详细地址"></el-input>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="el-col el-col-12">
-              <p class="title">区/县</p>
-              <div>
-                <el-select v-model="value" placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </div>
-            </div>
-          </div>
-          <div class="el-row">
-            <div class="el-col el-col-23">
-              <p class="title">详细地址</p>
-              <div>
-                <el-input placeholder="输入详细地址"></el-input>
-              </div>
-            </div>
-          </div>
-          <div class="el-row" id="input">
-            <div class="el-col el-col-12">
-              <p class="title">联系人</p>
-              <div>
-                <el-input placeholder="输入联系人"></el-input>
-              </div>
-            </div>
+            <div class="el-col-12 el-row">
+              <div class="el-row" id="input">
+                <div class="el-col el-col-12">
+                  <p class="title">联系人</p>
+                  <div>
+                    <el-input placeholder="输入联系人"></el-input>
+                  </div>
+                </div>
 
-            <div class="el-col el-col-12">
-              <p class="title">联系电话</p>
-              <div>
-                <el-input placeholder="输入联系电话"></el-input>
-              </div>
-            </div>
-            <div class="el-col el-col-12">
-              <p class="title">QQ</p>
-              <div>
-                <el-input placeholder="输入QQ"></el-input>
-              </div>
-            </div>
-            <div class="el-col el-col-12">
-              <p class="title">邮箱</p>
-              <div>
-                <el-input placeholder="输入邮箱"></el-input>
-              </div>
-            </div>
-            <div class="el-col el-col-12">
-              <p class="title">微信</p>
-              <div>
-                <el-input placeholder="输入微信"></el-input>
+                <div class="el-col el-col-12">
+                  <p class="title">联系电话</p>
+                  <div>
+                    <el-input placeholder="输入联系电话"></el-input>
+                  </div>
+                </div>
+                <div class="el-col el-col-12">
+                  <p class="title">QQ</p>
+                  <div>
+                    <el-input placeholder="输入QQ"></el-input>
+                  </div>
+                </div>
+                <div class="el-col el-col-12">
+                  <p class="title">邮箱</p>
+                  <div>
+                    <el-input placeholder="输入邮箱"></el-input>
+                  </div>
+                </div>
+                <div class="el-col el-col-12">
+                  <p class="title">微信</p>
+                  <div>
+                    <el-input placeholder="输入微信"></el-input>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
           <div class="el-row">
             <div class="el-col el-col-23">
               <div class="pull-left">
-                <label for="jz">
+                <!-- <label for="jz">
                   <el-checkbox id="jz" v-model="checkedjz">请仔细核对信息，同意请勾选</el-checkbox>
-                </label>
+                </label>-->
               </div>
               <div class="pull-right">
                 <span class="save">确认保存</span>
@@ -216,8 +229,13 @@
                 <input @change="addImg($event)" type="file" name="environment">
               </div>
               <!--  :style="'background-image:url(require('./../assets/banner_top2.png'))'" -->
-              <div class="img_box" v-for="(item,index) in environment" :key="index" v-bind:style="{backgroundImage:'url(' + item.img + ')'}">
-                <i  @click="delImg(index,'environment')" class="el-icon-error"></i>
+              <div
+                class="img_box"
+                v-for="(item,index) in environment"
+                :key="index"
+                v-bind:style="{backgroundImage:'url(' + item.img + ')'}"
+              >
+                <i @click="delImg(index,'environment')" class="el-icon-error"></i>
               </div>
             </div>
           </div>
@@ -236,7 +254,12 @@
                 <p>RGB模式，不超过10M</p>
                 <input @change="addImg($event)" type="file" name="bg">
               </div>
-             <div class="img_box" v-for="(item,index) in bg" :key="index" v-bind:style="{backgroundImage:'url(' + item.img + ')'}">
+              <div
+                class="img_box"
+                v-for="(item,index) in bg"
+                :key="index"
+                v-bind:style="{backgroundImage:'url(' + item.img + ')'}"
+              >
                 <i @click="delImg(index,'bg')" class="el-icon-error"></i>
               </div>
             </div>
@@ -343,19 +366,21 @@
   margin-bottom: 20px;
 }
 #addressBox .el-select,
-#input .el-input {
-  width: 92%;
+#addressBox .el-input {
+  width: calc(100% - 40px);
 }
-#addressBox .el-row {
+#addressBox > .el-row {
   padding-left: 50px;
 }
-#addressBox .el-row > div {
+#addressBox > .el-row > div {
   margin-bottom: 30px;
 }
 #addressBox .title,
 #detail .title {
   color: #647787;
   font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 10px;
 }
 #addressBox .save {
@@ -379,13 +404,14 @@
 #shopinfo .imgInfo .logo {
   width: 115px;
   height: 115px;
-  margin: 0 auto;
+  margin: 10px auto;
   border-radius: 50%;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   background-image: url(
-    https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3797826289,4154926392&fm=27&gp=0.jpg
+    https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3797826289,
+    4154926392&fm=27&gp=0.jpg
   );
 }
 #shopinfo .imgInfo .set {
@@ -399,7 +425,8 @@
 }
 #shopinfo .imgInfo h2 {
   color: #252631;
-  font-weight: 600;
+  font-weight: 500;
+  padding-bottom: 10px;
 }
 #shopinfo .license {
   width: 140px;
@@ -409,7 +436,8 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-image: url(
-    https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3797826289,4154926392&fm=27&gp=0.jpg
+    https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3797826289,
+    4154926392&fm=27&gp=0.jpg
   );
 }
 
@@ -468,14 +496,14 @@
 }
 #shopinfo .child {
   display: inline-block;
-  padding: 0 15px;
-  height: 40px;
+  padding: 0 10px;
+  height: 30px;
   border-radius: 7px;
   background: #ccc;
-  line-height: 40px;
+  line-height: 30px;
   text-align: center;
   margin: 7px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 13px;
   color: #fff;
 }
@@ -498,6 +526,7 @@
 #shopinfo .classfiy_box {
   height: 320px;
   padding: 6px;
+  overflow-y: auto;
 }
 #shopinfo .info .confrim {
   border-top: 1px solid #dcdfe6;
@@ -512,11 +541,9 @@
 #detail .confrim span {
   color: #fff;
   background: #328ffe;
-  padding: 7px 13px;
   border-radius: 5px;
-  font-size: 12px;
+  padding: 6px 20px;
   cursor: pointer;
-  box-shadow: 0 0 20px #c4c2c2;
 }
 </style>
 <script>
@@ -540,6 +567,16 @@ export default {
       navIndex: 0,
       environment: [],
       bg: [],
+      mapJson: "http://localhost:7007/ctiy",
+      province: "",
+      sheng: "",
+      shi: "",
+      shi1: [],
+      qu: "",
+      qu1: [],
+      city: "",
+      block: "",
+      address: []
     };
   },
   methods: {
@@ -563,7 +600,109 @@ export default {
         return;
       }
     },
-    delImg(i,key){ this[key].splice(i,1) },
+    delImg(i, key) {
+      this[key].splice(i, 1);
+    },
+    getCtiyData(callback) {
+      var that = this;
+      this.axios.get(this.mapJson, {}, function(response) {
+        var data = response;
+        that.province = [];
+        that.city = [];
+        that.block = [];
+        // 省市区数据分类
+        for (var item in data) {
+          if (item.match(/0000$/)) {
+            //省
+            that.province.push({
+              id: item,
+              value: data[item],
+              children: []
+            });
+          } else if (item.match(/00$/)) {
+            //市
+            that.city.push({ id: item, value: data[item], children: [] });
+          } else {
+            //区
+            that.block.push({ id: item, value: data[item] });
+          }
+        }
+        // 分类市级
+        for (var index in that.province) {
+          for (var index1 in that.city) {
+            if (
+              that.province[index].id.slice(0, 2) ===
+              that.city[index1].id.slice(0, 2)
+            ) {
+              that.province[index].children.push(that.city[index1]);
+            }
+          }
+        }
+        // 分类区级
+        for (var item1 in that.city) {
+          for (var item2 in that.block) {
+            if (
+              that.block[item2].id.slice(0, 4) ===
+              that.city[item1].id.slice(0, 4)
+            ) {
+              that.city[item1].children.push(that.block[item2]);
+            }
+          }
+        }
+        callback && callback();
+      });
+    }, // 选省
+    choseProvince: function(e) {
+      console.log(e);
+      this.s_province(e);
+    },
+    s_province(e) {
+      for (var index2 in this.province) {
+        if (e == this.province[index2].id) {
+          this.shi1 = this.province[index2].children;
+          this.shi = this.province[index2].children[0].value;
+          this.qu1 = this.province[index2].children[0].children;
+          this.qu = this.province[index2].children[0].children[0].value;
+          this.E = this.qu1[0].id;
+          this.address = [
+            this.province[index2].id,
+            this.province[index2].children[0].id,
+            this.province[index2].children[0].children[0].id
+          ];
+          return this.province[index2].value;
+        }
+      }
+      //  console.log(this.province[index2].value)
+    },
+    // 选市
+    choseCity: function(e) {
+      this.s_City(e);
+    },
+    s_City(e) {
+      for (var index3 in this.city) {
+        if (e == this.city[index3].id) {
+          this.qu1 = this.city[index3].children;
+          this.qu = this.city[index3].children[0].value;
+          this.E = this.qu1[0].id;
+          this.address[1] = this.city[index3].id;
+          this.address[2] = this.city[index3].children[0].id;
+          return this.city[index3].value;
+        }
+      }
+    },
+    s_Block(e) {
+      for (var index in this.block) {
+        if (e == this.block[index].id) {
+          this.address[2] = this.block[index].id;
+          return this.block[index].value;
+        }
+      }
+      this.E = e;
+    },
+    // 选区
+    choseBlock: function(e) {
+      this.s_Block(e);
+    },
     //图片路径转换
     getObjectURL(file) {
       var url = null;
@@ -576,6 +715,9 @@ export default {
       }
       return url;
     }
+  },
+  mounted(){
+    this.choseProvince();
   }
 };
 </script>
