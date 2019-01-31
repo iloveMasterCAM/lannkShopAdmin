@@ -6,7 +6,7 @@
         <!--<el-button plain icon="el-icon-plus" style="margin-bottom: 8px" @click="goAdd">新增</el-button>-->
         <div class="pl"  @click="goAdd">
           <i class="iconfont icon-tianjia1"></i>
-          <span>批量添加</span>
+          <span>添加</span>
         </div>
         <div class="pl"  @click="delSel">
           <i class="iconfont icon-shanchu"></i>
@@ -41,7 +41,7 @@
           <div class="line">
             |
           </div>
-          <div class="item" style="-webkit-transform: rotate(180deg) translateY(-6px);width:18px;height:18px;">
+          <div class="item" style="-webkit-transform: rotate(180deg) translateY(-2px);width:18px;height:18px;">
             <i class="iconfont icon-daoru"></i>
           </div>
           <div class="line">
@@ -169,8 +169,8 @@
                   label="时间限制"
                   width="320">
                   <template slot-scope="scope">
-                    <!--<p>{{changeTime(scope.row.start_date)}}<br>至<br>{{changeTime(scope.row.end_date)}}</p>-->
-                    <p>{{scope.row.start_date}}<br>至<br>{{scope.row.end_date}}</p>
+                    <p>{{changeTime(scope.row.start_date)}}<br>至<br>{{changeTime(scope.row.end_date)}}</p>
+                    <!--<p>{{scope.row.start_date}}<br>至<br>{{scope.row.end_date}}</p>-->
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -191,8 +191,8 @@
               <div class="block" style="float:right;margin-right:40px;margin-top:20px;">
                 <el-pagination
                   background
-          
-               
+
+
                   :current-page="currentPageActive"
                   :page-sizes="[10, 15, 20]"
                   :page-size="100"
@@ -234,7 +234,7 @@
                   prop="price_group"
                   label="团购价"
                   width="160">
-                </el-table-column>
+                </el-table-column>cccccc
                 <el-table-column
                   label="时间限制"
                   width="320">
@@ -261,8 +261,8 @@
               <div class="block" style="float:right;margin-right:40px;margin-top:20px;">
                 <el-pagination
                   background
-              
-               
+
+
                   :current-page="currentPageEnd"
                   :page-sizes="[10, 15, 20]"
                   :page-size="100"

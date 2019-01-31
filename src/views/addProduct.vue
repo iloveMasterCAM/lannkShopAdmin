@@ -15,8 +15,8 @@
                   <div class="right" id="addProduct">
                       <div class="info" v-show="currenNum===0">
                           <div class="top">
-                            <p class="title">商品内容</p>
-                            <el-form ref="form" :model="sizeForm" label-width="80px" size="mini">
+                            <p class="title" style="padding-top:6px;margin-bottom:16px;">商品内容</p>
+                            <el-form ref="form" :model="sizeForm" label-width="80px" >
                               <el-form-item label="所属类别">
                                 <el-select v-model="classId" placeholder="请选择所属类别" @change="getClassId">
                                   <el-option
@@ -45,16 +45,16 @@
                                 <el-input v-model="sizeForm.pCode" style="width:400px;" placeholder="请输入商品货号"></el-input>
                               </el-form-item>
                               <el-form-item label="库存数量">
-                                <el-input-number v-model="sizeForm.pNum"  :min="0" :max="9999" label="描述文字" size="small"></el-input-number>
+                                <el-input-number v-model="sizeForm.pNum"  :min="0" :max="9999" label="描述文字" controls-position="right" size="mini"></el-input-number>
                                 <label  style="margin-left:40px;">市场价</label>
-                                <el-input-number v-model="sizeForm.mPrice" :precision="2" :step="1" :min="0" ></el-input-number>
+                                <el-input-number v-model="sizeForm.mPrice" :precision="2" :step="1" :min="0" controls-position="right" size="mini"></el-input-number>
                                 <label>元</label>
                                 <label  style="margin-left:40px;">销售价</label>
-                                <el-input-number v-model="sizeForm.selPrice" :precision="2" :step="1" :min="0" ></el-input-number>
+                                <el-input-number v-model="sizeForm.selPrice" :precision="2" :step="1" :min="0" controls-position="right" size="mini"></el-input-number>
                                 <label>元</label>
                               </el-form-item>
                               <el-form-item label="排序数字">
-                                <el-input-number v-model="sizeForm.sortNum"  :min="0" :max="99" label="描述文字" size="small"></el-input-number>
+                                <el-input-number v-model="sizeForm.sortNum"  :min="0" :max="99" label="描述文字" controls-position="right" size="mini"></el-input-number>
                               </el-form-item>
                               <el-form-item label="发布时间">
                                 <div class="block">
@@ -80,12 +80,12 @@
                                 :data="tableData"
                                 border
                                 tooltip-effect="dark"
-                                style="width: 100%">
+                                style="width: 100%;margin-bottom:20px;">
                                 <el-table-column
                                   fixed
                                   prop="proNo"
                                   label="货号"
-                                  width="180">
+                                  width="200">
                                   <template slot-scope="scope">
                                     <el-input v-model="scope.row.proNo" size="small"></el-input>
                                   </template>
@@ -95,7 +95,7 @@
                                   label="市场价(元)"
                                   width="150">
                                   <template slot-scope="scope">
-                                    <el-input-number v-model="scope.row.proMPrice" :precision="2" :step="1" :min="0" size="mini"></el-input-number>
+                                    <el-input-number v-model="scope.row.proMPrice" :precision="2" :step="1" :min="0" size="mini" controls-position="right"></el-input-number>
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -103,7 +103,7 @@
                                   label="销售价(元)"
                                   width="150">
                                   <template slot-scope="scope">
-                                    <el-input-number v-model="scope.row.proSPrice" :precision="2" :step="1" :min="0" size="mini"></el-input-number>
+                                    <el-input-number v-model="scope.row.proSPrice" :precision="2" :step="1" :min="0" size="mini" controls-position="right"></el-input-number>
                                   </template>
                                 </el-table-column>
                                 <el-table-column
@@ -111,13 +111,13 @@
                                   label="库存(件)"
                                   width="150">
                                   <template slot-scope="scope">
-                                    <el-input-number v-model="scope.row.proNum"  :min="0" :max="9999" label="描述文字" size="mini"></el-input-number>
+                                    <el-input-number v-model="scope.row.proNum"  :min="0" :max="9999" label="描述文字" size="mini" controls-position="right"></el-input-number>
                                   </template>
                                 </el-table-column>
                                 <el-table-column
                                   prop="specText"
                                   label="规格"
-                                  width="350">
+                                  width="370">
                                 </el-table-column>
                               </el-table>
                             </div>
@@ -157,11 +157,11 @@
                       </div>
                       <div class="seo"  v-show="currenNum===2">
                           <p class="title">SEO选项</p>
-                        <el-form  :model="thirdForm" label-width="80px" size="mini" style="width:720px;">
+                        <el-form  :model="thirdForm" label-width="80px"  style="width:720px;">
                           <el-form-item label="SEO标题">
                             <el-input v-model="thirdForm.title"></el-input>
                           </el-form-item>
-                          <el-form-item label="SEO关健字">
+                          <el-form-item label="关健字">
                             <el-input type="textarea" v-model="thirdForm.key"></el-input>
                           </el-form-item>
                           <el-form-item label="SEO描述">
@@ -173,7 +173,7 @@
                           <div class="i-left">
                               <p class="title">封面图片</p>
                             <img :src="sizeForm.imgURl" alt="" class="previewImg" ref="previewImg">
-                              <div class="but">
+                              <div class="but" style="margin-top:10px;">
                                 <div class="button">
                                   <el-button type="primary" round size="mini">图片上传</el-button>
                                   <input type="file" value="" id="file" name="file"  @change='onUpload()' ref="upload" class="fileInput" accept="image/*">
@@ -185,7 +185,7 @@
                           </div>
                           <div class="i-right">
                               <p class="title">图片相册</p>
-                              <div class="i-right-box" style="margin-bottom:40px;">
+                              <div class="i-right-box" style="margin-bottom:80px;">
                                 <div class="imgBox" v-for="(value, index) in imgs" :key="index" style="position:relative">
                                   <img :src="getObjectURL(value)" alt="" class="plImg">
                                   <img src="../assets/del.png" alt="" style="width:16px;height:16px;position:absolute;top:1px;right:4px;cursor:pointer;" @click="delImg(index)">
@@ -555,7 +555,7 @@
         data.append("goodsDetail",JSON.stringify(this.tableData));//-规格内容
         data.append("sort",this.sizeForm.sortNum);//排序
         // data.append("isComment",this.sizeForm.lookNum);//浏览次数
-        //data.append("addDate",this.sizeForm.time);//时间
+        data.append("addDate",this.sizeForm.time);//时间
         for(let key in this.imgs){
           let name=key;
           data.append('images',this.imgs[key],name);//图片相册
@@ -616,6 +616,9 @@
     font-size:16px;
     color:#1e1c1c;
     margin-left:56px;
+    font-weight: normal;
+    padding:10px;
+    margin-bottom:20px;
   }
   .container-fluid{
     background-color:#fff;
@@ -638,6 +641,7 @@
     color:#1e1c1c;
     padding-left:16px;
     padding-top:16px;
+    padding-bottom:16px;
   }
   .box .left .item{
       padding:20px 10px 20px 24px;
@@ -652,12 +656,12 @@
   .box .left .item:hover span{
     color: #328ffe;
   }
-  .box .left .active{
+  .box .left .active {
     background: #e4effd;
     color: #328ffe;
   }
-  .box .left .active{
-    color: #328ffe;
+  .box .left .active span{
+    color: #328ffe !important;
   }
   .box .left .item i {
     padding-right:10px;
@@ -676,7 +680,7 @@
   }
   .box .right .info .top{
       width:100%;
-      height:500px;
+      height:550px;
     margin-left:80px;
     padding-left:40px;
     padding-top:10px;
@@ -687,14 +691,13 @@
     width:100%;
     margin-left:80px;
     margin-top:30px;
-    padding-left:40px;
+    padding-left:54px;
     padding-top:10px;
     padding-bottom:10px;
     box-shadow: 0 0 20px rgba(0,0,0,.1);
   }
   .box .right .info .bottom .title{
-    font-size:14px;
-    color:#1e1c1c;
+    font-size:16px;
     padding-top:14px;
     padding-bottom:14px;
   }
@@ -710,8 +713,8 @@
   .box .right .desc .title{
     font-size:14px;
     color:#1e1c1c;
-    padding-top:14px;
-    padding-bottom:14px;
+    padding-top:6px;
+    padding-bottom:18px;
   }
   .box .right .seo{
     width:100%;

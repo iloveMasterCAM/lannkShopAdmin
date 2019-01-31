@@ -15,6 +15,8 @@ import shop from '../views/shop'
 import specifications from '../views/specifications'
 import activity from '../views/activity'
 import groupBuy from '../views/groupBuy'
+import addGroupGoods from "@/views/addGroupGoods"
+import editGroup from '@/views/editGroup'
 
 let getCookie = function (c_name) {
   if (document.cookie.length > 0) {
@@ -30,7 +32,7 @@ let getCookie = function (c_name) {
 };
 
 Vue.use(Router)
-/* 
+/*
   linkActiveClass: 'active',
   mode:'history', */
  let Routers = new Router({
@@ -46,6 +48,16 @@ Vue.use(Router)
         path: '/groupBuy',
         name: 'groupBuy',
         component: groupBuy
+      },
+      {
+        path: '/groupBuy/addGroupGoods',
+        name: 'addGroupGoods',
+        component: addGroupGoods
+      },
+      {
+        path: '/groupBuy/editGroup',
+        name: 'editGroup',
+        component: editGroup
       },
       {
         path: '/activity',
@@ -88,12 +100,32 @@ Vue.use(Router)
         component: specifications
       },
       {
+        path: '/specifications/addSpec',
+        name: 'addSpec',
+        component: addSpec
+      },
+      {
+        path: '/specifications/modifySpec',
+        name: 'modifySpec',
+        component: modifySpec
+      },
+      {
         path: '/mailManage',
         name: 'mailManage',
         component: mailManage
-      }
+      },
+      {
+        path: '/mailManage/addProduct',
+        name: 'addProduct',
+        component: addProduct
+      },
+      {
+        path: '/mailManage/editProduct',
+        name: 'editProduct',
+        component: editProduct
+      },
     ]
-  })
+  });
   Routers.beforeEach((to, from, next) => {
 
     //console.log(to.name)
@@ -101,11 +133,11 @@ Vue.use(Router)
      console.log(isLogin)
     if (to.name !== "login") {
       if (!isLogin) {
-  
+
         next({
           path: "/login"
         });
-  
+
       } else {
         next();
       }

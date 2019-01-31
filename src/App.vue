@@ -62,7 +62,7 @@ export default {
   //  console.log("A页面 created");
   },
   mounted() {
-  
+
       if(!this.token.getCookie("token")){
      //   this.$router.push('/login')
       }
@@ -83,5 +83,8 @@ export default {
 #nav {
   height: 50px;
   background: #fff;
+}
+.el-form-item__label{
+  margin-right:40px;
 }
 </style>

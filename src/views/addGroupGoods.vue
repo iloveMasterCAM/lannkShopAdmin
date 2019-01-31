@@ -3,11 +3,12 @@
     <div class="main">
       <div class="main-content">
         <div class="container-fluid">
-          <h3 class="page-title">添加商品</h3>
-          <el-form ref="form" :model="sizeForm" label-width="80px" size="mini">
-            <el-form-item label="商品名称">
-              <el-input v-model="sizeForm.cName" style="width:400px;"></el-input>
-            </el-form-item>
+          <div class="g_left">
+            <h3 class="page-title">添加商品</h3>
+            <el-form ref="form" :model="sizeForm" label-width="80px" style="width:100%;">
+              <el-form-item label="商品名称">
+                <el-input v-model="sizeForm.cName" style="width:400px;"></el-input>
+              </el-form-item>
               <el-form-item label="所属类别">
                 <el-select v-model="classId" placeholder="请选择所属类别" @change="getClassId">
                   <el-option
@@ -18,114 +19,134 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-            <el-form-item label="封面图片">
-              <div class="file">
-                <input type="file" value="" id="file" name="file"  @change='onUpload()' ref="upload" class="fileInput" accept="image/*">
-              </div>
-              <img :src="sizeForm.imgURl" alt="" class="previewImg" ref="previewImg">
-            </el-form-item>
-            <el-form-item label="时间限制">
-              <div class="block">
-                <el-date-picker
-                  v-model="sizeForm.time"
-                  type="datetimerange"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-              </div>
-            </el-form-item>
-            <el-form-item label="地区设置">
-              <el-select
-                v-model="sheng"
-                @change="choseProvince"
-              placeholder="省级地区">
-              <el-option
-                v-for="item in province"
-                :key="item.id"
-                :label="item.value"
-                :value="item.id">
-              </el-option>
-              </el-select>
-              <el-select
-                v-model="shi"
-                @change="choseCity"
-                placeholder="市级地区">
-                <el-option
-                  v-for="item in shi1"
-                  :key="item.id"
-                  :label="item.value"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="属性设置">
-              <el-radio v-model="sizeForm.radio" label="1">进行中</el-radio>
-              <el-radio v-model="sizeForm.radio" label="0">已结束</el-radio>
-            </el-form-item>
-            <el-form-item label="价格设置">
-              <label for="">原价：</label>
-              <el-input-number v-model="sizeForm.OPrice" :precision="2" :step="0.1" :min="0"></el-input-number>
-              <label for="">折扣：</label>
-              <el-input-number v-model="sizeForm.zPrice" :precision="2" :step="0.1" :min="0" :max="10"></el-input-number>
-              <label for="">团购价：</label>
-              <el-input-number v-model="sizeForm.tPrice" :precision="2" :step="0.1" :min="0"></el-input-number>
-              <label for="">重量：</label>
-              <el-input-number v-model="sizeForm.weight" :precision="2" :step="0.1" :min="0"></el-input-number>
-              <label for="">KG</label>
-            </el-form-item>
-            <el-form-item label="购买设置">
-              <label for="">最低人数：</label>
-              <el-input-number v-model="sizeForm.minPeo" :min="1" label="描述文字"></el-input-number>
-              <label for="">每人限制购买：</label>
-              <el-input-number v-model="sizeForm.limit" :min="1"  label="描述文字"></el-input-number>
-              <label for="">库存：</label>
-              <el-input-number v-model="sizeForm.stock" :min="0"  label="描述文字"></el-input-number>
-              <label for="">已售数量：</label>
-              <el-input-number v-model="sizeForm.soldNum" :min="0"  label="描述文字"></el-input-number>
-            </el-form-item>
-            <el-form-item label="收款账号">
-              <el-select v-model="sizeForm.account" placeholder="请选择收款账号">
-                <el-option
-                  v-for="item in options"
-                  :key="item.label"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="本单详情">
-              <quill-editor
-                v-model="content"
-                ref="myQuillEditor"
-                :options="editorOption"
-                @ready="onEditorReady($event)"
-                @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
-                @change="onEditorChange($event)">
-              </quill-editor>
-            </el-form-item>
-            <el-form-item label="精彩卖点">
-              <quill-editor
-                v-model="content1"
-                ref="myQuillEditor"
-                :options="editorOption"
-                @ready="onEditorReady($event)"
-                @blur="onEditorBlur1($event)" @focus="onEditorFocus($event)"
-                @change="onEditorChange($event)">
-              </quill-editor>
-            </el-form-item>
-            <el-form-item label="购买链接">
-              <el-input v-model="sizeForm.link" placeholder="请输入购买链接" style="width:300px;"></el-input>
-            </el-form-item>
-            <el-form-item label="录入员">
-              <el-input v-model="sizeForm.personnel" placeholder="请输入录入员名称" style="width:300px;"></el-input>
-            </el-form-item>
-            <el-form-item size="large">
-              <el-button type="primary" @click="onSubmit">立即添加</el-button>
-              <el-button @click="cancal">取消</el-button>
-            </el-form-item>
+              <!--<el-form-item label="封面图片">-->
+                <!--<div class="file">-->
+                  <!--<input type="file" value="" id="file" name="file"  @change='onUpload()' ref="upload" class="fileInput" accept="image/*">-->
+                <!--</div>-->
+                <!--<img :src="sizeForm.imgURl" alt="" class="previewImg" ref="previewImg">-->
+              <!--</el-form-item>-->
+              <el-form-item label="时间限制">
+                <div class="block">
+                  <el-date-picker
+                    v-model="sizeForm.time"
+                    type="datetimerange"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期">
+                  </el-date-picker>
+                </div>
+              </el-form-item>
+              <el-form-item label="地区设置">
+                <el-select
+                  v-model="sheng"
+                  @change="choseProvince"
+                  placeholder="省级地区">
+                  <el-option
+                    v-for="item in province"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+                <el-select
+                  v-model="shi"
+                  @change="choseCity"
+                  placeholder="市级地区">
+                  <el-option
+                    v-for="item in shi1"
+                    :key="item.id"
+                    :label="item.value"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="属性设置">
+                <el-radio v-model="sizeForm.radio" label="1">进行中</el-radio>
+                <el-radio v-model="sizeForm.radio" label="0">已结束</el-radio>
+              </el-form-item>
+              <el-form-item label="价格设置">
+                <label for="" style="margin-left:29px;">原价：</label>
+                <el-input-number v-model="sizeForm.OPrice" :precision="2" :step="0.1" :min="0" controls-position="right" size="mini" style="margin-right:60px;"></el-input-number>
+                <label for="" >折扣：</label>
+                <el-input-number v-model="sizeForm.zPrice" :precision="2" :step="0.1" :min="0" :max="10" controls-position="right" size="mini"></el-input-number>
+                <br>
+                <label for=""  style="margin-left:55px;">团购价：</label>
+                <el-input-number v-model="sizeForm.tPrice" :precision="2" :step="0.1" :min="0" controls-position="right" size="mini" style="margin-right:60px;"></el-input-number>
+                <label for="" >重量：</label>
+                <el-input-number v-model="sizeForm.weight" :precision="2" :step="0.1" :min="0" controls-position="right" size="mini"></el-input-number>
+                <!--<label for="">KG</label>-->
+              </el-form-item>
+              <el-form-item label="购买设置">
+                <label for="">最低人数：</label>
+                <el-input-number v-model="sizeForm.minPeo" :min="1" label="描述文字" controls-position="right" size="mini"></el-input-number>
+                <label for=""  style="margin-left:6px;">每人限制购买：</label>
+                <el-input-number v-model="sizeForm.limit" :min="1"  label="描述文字" controls-position="right" size="mini"></el-input-number>
+                <br>
+                <label for="" style="margin-left:68px;">库存：</label>
+                <el-input-number v-model="sizeForm.stock" :min="0"  label="描述文字" controls-position="right" size="mini"></el-input-number>
+                <label for="" style="margin-left:34px;">已售数量：</label>
+                <el-input-number v-model="sizeForm.soldNum" :min="0"  label="描述文字" controls-position="right" size="mini"></el-input-number>
+                <label for="">件</label>
+              </el-form-item>
+              <el-form-item label="收款账号">
+                <el-select v-model="sizeForm.account" placeholder="请选择收款账号">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.label"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="本单详情">
+                <quill-editor
+                  style="margin-left:40px;"
+                  v-model="content"
+                  ref="myQuillEditor"
+                  :options="editorOption"
+                  @ready="onEditorReady($event)"
+                  @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+                  @change="onEditorChange($event)">
+                </quill-editor>
+              </el-form-item>
+              <el-form-item label="精彩卖点">
+                <quill-editor
+                  style="margin-left:40px;"
+                  v-model="content1"
+                  ref="myQuillEditor"
+                  :options="editorOption"
+                  @ready="onEditorReady($event)"
+                  @blur="onEditorBlur1($event)" @focus="onEditorFocus($event)"
+                  @change="onEditorChange($event)">
+                </quill-editor>
+              </el-form-item>
+              <el-form-item label="购买链接">
+                <el-input v-model="sizeForm.link" placeholder="请输入购买链接" style="width:300px;"></el-input>
+              </el-form-item>
+              <el-form-item label="录入员">
+                <el-input v-model="sizeForm.personnel" placeholder="请输入录入员名称" style="width:300px;"></el-input>
+              </el-form-item>
+              <el-form-item size="large" style="margin-left:230px;margin-top:100px;">
+                <el-button type="primary" @click="onSubmit" style="margin-right:20px;">确定添加</el-button>
+                <el-button @click="cancal">取消返回</el-button>
+              </el-form-item>
             </el-form>
+          </div>
+          <div class="g_right">
+              <p>封面大图片</p>
+              <img :src="sizeForm.imgURl" alt=""  ref="previewImg" class="g_img">
+              <div class="g_button">
+                <div class="up" style="position:relative;width:80px;height:28px;">
+                  <el-button type="primary" round size="mini">图片上传</el-button>
+                  <input type="file" value=""  name="file"  @change='onUpload()' ref="upload"  accept="image/*" style="position:absolute;top:0;left:0;opacity: 0;width:100%;height:100%;">
+                </div>
+                <div class="del" @click="delCoverImg">
+                  <el-button round size="mini">删除图片</el-button>
+                </div>
+              </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -170,7 +191,7 @@
           type: [],
           cName: '',
           tagLab: '',
-          imgURl: '',
+          imgURl: require('../assets/fm.png'),
           fileImg: new File(["",""],""),
           pCode: '',
           pNum: 0,
@@ -260,6 +281,10 @@
       },
     },
     methods: {
+      delCoverImg(){
+        this.sizeForm.imgURl=require('../assets/fm.png');
+          this.sizeForm.fileImg=new File(["",""],"")
+      },
       //省市选择
       getCityData:function(){
         var that = this;
@@ -503,8 +528,8 @@
         data.append("coverImage",this.sizeForm.fileImg);
         data.append("province",this.sheng);
         data.append("city",this.shi);
-        data.append("startData",this.sizeForm.time[0]);
-        data.append("endData",this.sizeForm.time[1]);
+        data.append("startDate",this.sizeForm.time[0]);
+        data.append("endDate",this.sizeForm.time[1]);
         data.append("property",this.sizeForm.radio);//属性 数组
         data.append("priceOriginal",this.sizeForm.OPrice);//原价
         data.append("discount",this.sizeForm.zPrice);//折扣
@@ -565,12 +590,16 @@
     transform: translate3d(100%, 0, 0)
   }
   .page-title{
-    font-size:18px;
+    font-size:14px;
+    color:#1e1c1c;
+    margin-left:10px;
+    margin-bottom:10px;
   }
   .container-fluid{
     background-color:#fff;
     padding:20px;
     margin-left: 12px;
+    display:flex;
   }
 
   .file{
@@ -640,5 +669,38 @@
     color:#409EFF;
     cursor:pointer;
     padding:0 4px;
+  }
+  .g_left{
+    width:960px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+    padding:20px;
+    margin:30px;
+  }
+  .g_right{
+    width:380px;
+    height:340px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+    padding:20px;
+    margin:30px;
+  }
+  .g_right >p{
+    color:#1e1c1c;
+    font-size:14px;
+    font-weight: bold;
+  }
+  .g_right .g_img{
+    width:218px;
+    height:170px;
+    border-radius:8px;
+    margin-left:60px;
+    margin-top:40px;
+  }
+  .g_right .g_button{
+    display:flex;
+    padding-top:20px;
+    justify-content: center;
+  }
+  .g_right .g_button>div{
+      margin:10px;
   }
 </style>

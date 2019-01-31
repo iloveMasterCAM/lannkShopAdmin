@@ -3,84 +3,89 @@
     <div class="main">
       <div class="main-content">
         <div class="container-fluid">
-          <h3 class="page-title">修改商品</h3>
-          <el-tabs v-model="activeName" type="card">
-            <el-tab-pane label="基本信息" name="first">
-              <div class="tabFirst">
-                <el-form ref="form" :model="sizeForm" label-width="80px" size="mini">
-                  <el-form-item label="所属类别">
-                    <el-select v-model="classId" placeholder="请选择所属类别" @change="getClassId">
-                      <el-option
-                        v-for="item in optionsClass"
-                        :key="item.categoryId"
-                        :label="item.categoryName"
-                        :value="item.categoryId">
-                      </el-option>
-                      <!--categoryId-->
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item label="是否发布" prop="delivery">
-                    <el-switch v-model="sizeForm.release"></el-switch>
-                  </el-form-item>
-                  <el-form-item label="推荐类型">
-                    <el-checkbox-group v-model="sizeForm.type" @change="getType">
-                      <el-checkbox-button label="允许评论" name="type"></el-checkbox-button>
-                      <el-checkbox-button label="置顶" name="type"></el-checkbox-button>
-                      <el-checkbox-button label="推荐" name="type"></el-checkbox-button>
-                      <el-checkbox-button label="热门" name="type"></el-checkbox-button>
-                      <!--<el-checkbox-button label="幻灯片" name="type"></el-checkbox-button>-->
-                    </el-checkbox-group>
-                  </el-form-item>
-                  <el-form-item label="内容标题">
-                    <el-input v-model="sizeForm.cName" style="width:400px;"></el-input>
-                  </el-form-item>
-                  <!--<el-form-item label="副标题">-->
-                  <!--<el-input v-model="sizeForm.subName" style="width:400px;"></el-input>-->
-                  <!--</el-form-item>-->
-                  <!--<el-form-item label="Tags标签">-->
-                  <!--<el-input v-model="sizeForm.tagLab" style="width:400px;"></el-input>-->
-                  <!--</el-form-item>-->
-                  <el-form-item label="封面图片">
-                    <div class="file">
-                      <input type="file" value="" id="file" name="file"  @change='onUpload()' ref="upload" class="fileInput" accept="image/*">
-                    </div>
-                    <img :src="sizeForm.imgURl" alt="" class="previewImg" ref="previewImg">
-                  </el-form-item>
-                  <el-form-item label="商品货号">
-                    <el-input v-model="sizeForm.pCode" style="width:400px;"></el-input>
-                  </el-form-item>
-                  <el-form-item label="库存数量">
-                    <el-input-number v-model="sizeForm.pNum"  :min="0" :max="9999" label="描述文字" size="small"></el-input-number>
-                    <label>库存数量为0时显示缺货状态</label>
-                  </el-form-item>
-                  <el-form-item label="市场价格">
-                    <!--<el-input v-model="sizeForm.mPrice" style="width:130px;"></el-input>-->
-                    <el-input-number v-model="sizeForm.mPrice" :precision="2" :step="1" :min="0" ></el-input-number>
-                    <label>元</label>
-                  </el-form-item>
-                  <el-form-item label="销售价格">
-                    <el-input-number v-model="sizeForm.selPrice" :precision="2" :step="1" :min="0" ></el-input-number>
-                    <label>元</label>
-                  </el-form-item>
-                  <!--<el-form-item label="交易积分">-->
-                  <!--<el-input v-model="sizeForm.integral" style="width:130px;"></el-input>-->
-                  <!--</el-form-item>-->
-                  <el-form-item label="商品规格">
-                    <el-button plain icon="el-icon-circle-plus-outline" @click="addSel()" size="small">设置规格</el-button>
-                  </el-form-item>
+          <h3 class="page-title">添加商品</h3>
+          <div class="box">
+            <div class="left">
+              <p class="title">商品内容</p>
+              <div class="item" v-for="(item,index) in nav" :key="index" :class="{active:index===currenNum}" @click="changerIndex(index)">
+                <i class="iconfont" :class="item.iconClass"></i>
+                <span v-html="item.text"></span>
+              </div>
+            </div>
+            <div class="right" id="addProduct">
+              <div class="info" v-show="currenNum===0">
+                <div class="top">
+                  <p class="title" style="padding-top:6px;margin-bottom:16px;">商品内容</p>
+                  <el-form ref="form" :model="sizeForm" label-width="80px" >
+                    <el-form-item label="所属类别">
+                      <el-select v-model="classId" placeholder="请选择所属类别" @change="getClassId">
+                        <el-option
+                          v-for="item in optionsClass"
+                          :key="item.categoryId"
+                          :label="item.categoryName"
+                          :value="item.categoryId">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="是否发布" prop="delivery">
+                      <el-switch v-model="sizeForm.release"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="推荐类型">
+                      <el-checkbox-group v-model="sizeForm.type" @change="getType">
+                        <el-checkbox-button label="允许评论" name="type"></el-checkbox-button>
+                        <el-checkbox-button label="置顶" name="type"></el-checkbox-button>
+                        <el-checkbox-button label="推荐" name="type"></el-checkbox-button>
+                        <el-checkbox-button label="热门" name="type"></el-checkbox-button>
+                      </el-checkbox-group>
+                    </el-form-item>
+                    <el-form-item label="内容标题">
+                      <el-input v-model="sizeForm.cName" style="width:400px;" placeholder="请输入内容标题"></el-input>
+                    </el-form-item>
+                    <el-form-item label="商品货号">
+                      <el-input v-model="sizeForm.pCode" style="width:400px;" placeholder="请输入商品货号"></el-input>
+                    </el-form-item>
+                    <el-form-item label="库存数量">
+                      <el-input-number v-model="sizeForm.pNum"  :min="0" :max="9999" label="描述文字" controls-position="right" size="mini"></el-input-number>
+                      <label  style="margin-left:40px;">市场价</label>
+                      <el-input-number v-model="sizeForm.mPrice" :precision="2" :step="1" :min="0" controls-position="right" size="mini"></el-input-number>
+                      <label>元</label>
+                      <label  style="margin-left:40px;">销售价</label>
+                      <el-input-number v-model="sizeForm.selPrice" :precision="2" :step="1" :min="0" controls-position="right" size="mini"></el-input-number>
+                      <label>元</label>
+                    </el-form-item>
+                    <el-form-item label="排序数字">
+                      <el-input-number v-model="sizeForm.sortNum"  :min="0" :max="99" label="描述文字" controls-position="right" size="mini"></el-input-number>
+                    </el-form-item>
+                    <el-form-item label="发布时间">
+                      <div class="block">
+                        <el-date-picker
+                          v-model="sizeForm.time"
+                          type="datetime"
+                          value-format="yyyy-MM-dd HH:mm:ss"
+                          placeholder="选择日期时间">
+                        </el-date-picker>
+                      </div>
+                    </el-form-item>
+                  </el-form>
+                </div>
+                <div class="bottom">
+                  <el-form>
+                    <el-form-item label="商品规格">
+                      <el-button plain @click="addSel()" size="small"><i class="iconfont icon-tianjiashangpin" style="font-size:14px;margin-right:4px;"></i>设置规格</el-button>
+                    </el-form-item>
+                  </el-form>
 
-                  <!--table-->
-                  <div class="table" style="margin-left:80px;">
+                  <div class="table">
                     <el-table
                       :data="tableData"
                       border
                       tooltip-effect="dark"
-                      style="width: 100%">
+                      style="width: 100%;margin-bottom:20px;">
                       <el-table-column
                         fixed
                         prop="Pro_No"
                         label="货号"
-                        width="220">
+                        width="200">
                         <template slot-scope="scope">
                           <el-input v-model="scope.row.Pro_No" size="small"></el-input>
                         </template>
@@ -90,7 +95,7 @@
                         label="市场价(元)"
                         width="150">
                         <template slot-scope="scope">
-                          <el-input-number v-model="scope.row.Pro_MPrice" :precision="2" :step="1" :min="0" size="small"></el-input-number>
+                          <el-input-number v-model="scope.row.Pro_MPrice" :precision="2" :step="1" :min="0" size="mini" controls-position="right"></el-input-number>
                         </template>
                       </el-table-column>
                       <el-table-column
@@ -98,87 +103,45 @@
                         label="销售价(元)"
                         width="150">
                         <template slot-scope="scope">
-                          <el-input-number v-model="scope.row.Pro_SPrice" :precision="2" :step="1" :min="0" size="small"></el-input-number>
+                          <el-input-number v-model="scope.row.Pro_SPrice" :precision="2" :step="1" :min="0" size="mini" controls-position="right"></el-input-number>
                         </template>
                       </el-table-column>
                       <el-table-column
                         prop="Pro_Num"
                         label="库存(件)"
-                        width="160">
+                        width="150">
                         <template slot-scope="scope">
-                          <el-input-number v-model="scope.row.Pro_Num"  :min="0" :max="9999" label="描述文字" size="small"></el-input-number>
+                          <el-input-number v-model="scope.row.Pro_Num"  :min="0" :max="9999" label="描述文字" size="mini" controls-position="right"></el-input-number>
                         </template>
                       </el-table-column>
                       <el-table-column
                         prop="Spec_Text"
                         label="规格"
-                        width="800">
+                        width="370">
                       </el-table-column>
-                      <!--<el-table-column-->
-                      <!--fixed="right"-->
-                      <!--label="操作"-->
-                      <!--width="190">-->
-                      <!--<template slot-scope="scope">-->
-                      <!--<el-button-->
-                      <!--type="primary"-->
-                      <!--@click.native.prevent="editRow(scope.row)"-->
-                      <!--size="mini">-->
-                      <!--编辑-->
-                      <!--</el-button>-->
-                      <!--</template>-->
-                      <!--</el-table-column>-->
                     </el-table>
                   </div>
-                  <el-form-item label="排序数字">
-                    <el-input-number v-model="sizeForm.sortNum"  :min="0" :max="99" label="描述文字" size="small"></el-input-number>
-                  </el-form-item>
-                  <!--<el-form-item label="浏览次数">-->
-                  <!--<el-input-number v-model="sizeForm.lookNum"  :min="0" :max="999" label="描述文字" size="small"></el-input-number>-->
-                  <!--</el-form-item>-->
-                  <el-form-item label="发布时间">
-                    <div class="block">
-                      <el-date-picker
-                        v-model="sizeForm.time"
-                        type="datetime"
-                        value-format="yyyy-MM-dd HH:mm:ss"
-                        placeholder="选择日期时间">
-                      </el-date-picker>
-                    </div>
-                  </el-form-item>
-                  <el-form-item label="图片相册">
-                    <label for="uploadMFile" style="padding:0 14px;font-size:12px;border-radius: 3px;color: #606266;border: 1px solid #dcdfe6;font-weight:normal;cursor:pointer;"><i class="el-icon-document" style="padding-right:6px;"></i>批量上传</label>
-                    <input type="file" name="file" id="uploadMFile" style="opacity: 0;position:absolute;left:-999px;"  accept="image/*" multiple @change="addImg()" ref="inputer"><br>
-                    <div class="imgBox" v-for="(value, index) in imgs" :key="index" v-show="imgs">
-                      <img :src="getObjectURL(value)" alt="" style="width:120px;height:120px;">
-                      <div class="button">
-                        <span @click="delImg(index)">删除</span>
+                  <!--dialog-->
+                  <el-dialog title="商品规格" :visible.sync="dialogFormVisible">
+                    <div class="item" v-for="item in diaData">
+                      <span class="item-left" v-html="item.title"></span>
+                      <div class="item-right">
+                        <span v-show="!text.src" :title="text.title" v-html="text.title" v-for="text in item.subList" @click="text.state=!text.state" :class="{active:text.state}"></span>
+                        <img  v-show="img.src"   :src="img.src" :title="img.title" v-for="img in item.subList" @click="img.state=!img.state">
                       </div>
                     </div>
-                    <div class="imgBox" v-for="(value, index) in imgsUrl" :key="index" v-show="!imgs">
-                      <img :src="value.imagesPath" alt="" style="width:120px;height:120px;">
-                      <div class="button">
-                        <span @click="delImgUrl(value.id)">删除</span>
-                      </div>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button @click="dialogFormVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="diaSubmit" >确 定</el-button>
                     </div>
-                  </el-form-item>
-                  <el-form-item size="large">
-                    <el-button type="primary" @click="onSubmit">立即添加</el-button>
-                    <el-button @click="cancal">取消</el-button>
-                  </el-form-item>
-                </el-form>
+                  </el-dialog>
+                </div>
               </div>
-            </el-tab-pane>
-            <el-tab-pane label="详细描述" name="second">
-              <div class="tabSecond">
-                <el-form  :model="secondForm" label-width="80px" size="mini">
-                  <!--<el-form-item label="调用别名">-->
-                    <!--<el-input v-model="secondForm.name" style="width:400px;"></el-input>-->
-                  <!--</el-form-item>-->
-                  <!--<el-form-item label="URL链接">-->
-                    <!--<el-input v-model="secondForm.link" style="width:400px;"></el-input>-->
-                  <!--</el-form-item>-->
+              <div class="desc" v-show="currenNum===1">
+                <p class="title">详细描述</p>
+                <el-form  :model="secondForm" label-width="80px" size="mini" style="width:760px;">
                   <el-form-item label="内容摘要">
-                    <el-input type="textarea" v-model="secondForm.abstract" style="width:400px;"></el-input>
+                    <el-input type="textarea" v-model="secondForm.abstract" ></el-input>
                   </el-form-item>
                   <el-form-item label="内容描述">
                     <quill-editor
@@ -190,47 +153,60 @@
                       @change="onEditorChange($event)">
                     </quill-editor>
                   </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click="onSubmit">立即添加</el-button>
-                    <el-button @click="cancal">取消</el-button>
-                  </el-form-item>
                 </el-form>
               </div>
-            </el-tab-pane>
-            <el-tab-pane label="SEO选项" name="third">
-              <div class="tabThird">
-                <el-form  :model="thirdForm" label-width="80px" size="mini">
+              <div class="seo"  v-show="currenNum===2">
+                <p class="title">SEO选项</p>
+                <el-form  :model="thirdForm" label-width="80px"  style="width:720px;">
                   <el-form-item label="SEO标题">
-                    <el-input v-model="thirdForm.title" style="width:400px;"></el-input>
+                    <el-input v-model="thirdForm.title"></el-input>
                   </el-form-item>
-                  <el-form-item label="SEO关健字">
-                    <el-input type="textarea" v-model="thirdForm.key" style="width:400px;"></el-input>
+                  <el-form-item label="关健字">
+                    <el-input type="textarea" v-model="thirdForm.key"></el-input>
                   </el-form-item>
                   <el-form-item label="SEO描述">
-                    <el-input type="textarea" v-model="thirdForm.des" style="width:400px;"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click="onSubmit">立即添加</el-button>
-                    <el-button @click="cancal">取消</el-button>
+                    <el-input type="textarea" v-model="thirdForm.des"></el-input>
                   </el-form-item>
                 </el-form>
               </div>
-            </el-tab-pane>
-          </el-tabs>
-          <!--dialog-->
-          <el-dialog title="商品规格" :visible.sync="dialogFormVisible">
-            <div class="item" v-for="item in diaData">
-              <span class="left" v-html="item.title"></span>
-              <div class="right">
-                <span v-show="!text.src" :title="text.title" v-html="text.title" v-for="text in item.subList" @click="text.state=!text.state" :class="{active:text.state}"></span>
-                <img  v-show="img.src"   :src="img.src" :title="img.title" v-for="img in item.subList" @click="img.state=!img.state">
+              <div class="image"v-show="currenNum===3">
+                <div class="i-left">
+                  <p class="title">封面图片</p>
+                  <img :src="sizeForm.imgURl" alt="" class="previewImg" ref="previewImg">
+                  <div class="but" style="margin-top:10px;">
+                    <div class="button">
+                      <el-button type="primary" round size="mini">图片上传</el-button>
+                      <input type="file" value="" id="file" name="file"  @change='onUpload()' ref="upload" class="fileInput" accept="image/*">
+                    </div>
+                    <div class="button del" @click="delCoverImg">
+                      <el-button round size="mini">删除图片</el-button>
+                    </div>
+                  </div>
+                </div>
+                <div class="i-right">
+                  <p class="title">图片相册</p>
+                  <div class="i-right-box" style="margin-bottom:80px;">
+                    <div class="imgBox" v-for="(value, index) in imgs" :key="index" style="position:relative">
+                      <img :src="getObjectURL(value)" alt="" class="plImg">
+                      <img src="../assets/del.png" alt="" style="width:16px;height:16px;position:absolute;top:1px;right:4px;cursor:pointer;" @click="delImg(index)">
+                    </div>
+                  </div>
+                  <div class="button" style="position:absolute;left:0;right:0;bottom:40px;margin: 0 auto;width:76px;height:26px;">
+                    <el-button type="primary" round size="mini">批量上传</el-button>
+                    <input type="file" name="file" id="uploadMFile" accept="image/*" multiple @change="addImg()" ref="inputer" class="fileInput">
+                  </div>
+                </div>
               </div>
             </div>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="diaSubmit" >确 定</el-button>
+          </div>
+          <div class="end">
+            <div id="submit" class="submit">
+              <p>版权所有 深圳市动力启航软件有限公司 Copyright © 2009 - 2017 dtcms.net Inc. All Rights Reserved.</p>
+              <el-button type="primary" @click="onSubmit" round size="mini">立即添加</el-button>
+              <img  src="/static/img/shen.3b33bf3.png" alt="" class="shen" style="display: none;">
             </div>
-          </el-dialog>
+
+          </div>
 
         </div>
       </div>
@@ -249,6 +225,13 @@
     },
     data() {
       return {
+        nav:[
+          {iconClass:'icon-gerenxinxi',text:'基本信息'},
+          {iconClass:'icon-miaoshu',text:'详细描述'},
+          {iconClass:'icon-chakan',text:'SEO选项'},
+          {iconClass:'icon-tupian',text:'上传图片'}
+        ],
+        currenNum:0,
         //编辑器
         content:'',
         editorOption: {},
@@ -337,60 +320,60 @@
       data.append("id",id);
       this.instance.post('http://192.168.1.2:8080/shops/getProductById.do',data)
         .then((res) => {
-          console.log("修改商品");
-          console.log(res.data);
-          var selectData=res.data.selectedspec;//选中数据
-          var data=res.data.allspec;//全部规格数据
-          this.tableData=res.data.sepclist;//规格详情
-          this.imgsUrl=res.data.imggroup;
-          var form=res.data.allspec[0];//页面数据
-          data.splice(0,1);
-          data.forEach((item)=>{
-            item.subList.forEach((item)=>{
-              item.state=false;
-            })
-          });
-          data.forEach((item)=>{
-            selectData.forEach((val)=>{
+            console.log("修改商品");
+            console.log(res.data);
+            var selectData=res.data.selectedspec;//选中数据
+            var data=res.data.allspec;//全部规格数据
+            this.tableData=res.data.sepclist;//规格详情
+            this.imgsUrl=res.data.imggroup;
+            var form=res.data.allspec[0];//页面数据
+            data.splice(0,1);
+            data.forEach((item)=>{
+              item.subList.forEach((item)=>{
+                item.state=false;
+              })
+            });
+            data.forEach((item)=>{
+              selectData.forEach((val)=>{
                 if(item.ID===val.Spec_ID){
                   item.subList.forEach((it)=>{
                     val.subList.forEach((va)=>{
-                       if(it.ID===va.Spec_ID){
-                         it.state=true;
-                       }
+                      if(it.ID===va.Spec_ID){
+                        it.state=true;
+                      }
                     })
                   })
                 }
-            })
-          });
-          this.diaData=data;
+              })
+            });
+            this.diaData=data;
 
 
 
-          var type=[];
-          if(form.isRecommend){
+            var type=[];
+            if(form.isRecommend){
               type.push("推荐")
-          }
-          if(form.isHot){
-            type.push("热门")
-          }
-          if(form.isTop){
-            type.push("置顶")
-          }
-          if(form.isComment){
-            type.push("允许评论")
-          }
-          this.sizeForm.id=form.id;
-          this.sizeForm.release=!!form.verify;
-          this.sizeForm.type=type;
-          this.sizeForm.cName=form.title;
-          //this.sizeForm.imgURl=form.title;
-          this.sizeForm.pCode=form.artNo;
-          this.sizeForm.pNum=form.proNums;
-          this.sizeForm.mPrice=form.oPrice;
-          this.sizeForm.selPrice=form.proPrice;
-          this.sizeForm.sortNum=form.sort;
-          this.sizeForm.time=this.changeTime(form.addDate);
+            }
+            if(form.isHot){
+              type.push("热门")
+            }
+            if(form.isTop){
+              type.push("置顶")
+            }
+            if(form.isComment){
+              type.push("允许评论")
+            }
+            this.sizeForm.id=form.id;
+            this.sizeForm.release=!!form.verify;
+            this.sizeForm.type=type;
+            this.sizeForm.cName=form.title;
+            //this.sizeForm.imgURl=form.title;
+            this.sizeForm.pCode=form.artNo;
+            this.sizeForm.pNum=form.proNums;
+            this.sizeForm.mPrice=form.oPrice;
+            this.sizeForm.selPrice=form.proPrice;
+            this.sizeForm.sortNum=form.sort;
+            this.sizeForm.time=this.changeTime(form.addDate);
           }
         ).catch((err) => {
         console.log(err);
@@ -402,6 +385,13 @@
       },
     },
     methods: {
+      changerIndex(index){
+        this.currenNum=index;
+      },
+      delCoverImg(){
+        this.sizeForm.imgURl=require('../assets/coverImg.png');
+        this.sizeForm.fileImg=new File(["",""],"");
+      },
       //编辑器事件
       onEditorReady(editor) { // 准备编辑器
 
@@ -649,7 +639,6 @@
 
 </script>
 
-
 <style scoped >
   .fade-enter-active, .fade-leave-active{
     transition: all 0.3s
@@ -660,54 +649,201 @@
     transform: translate3d(100%, 0, 0)
   }
   .page-title{
-    font-size:18px;
+    font-size:16px;
+    color:#1e1c1c;
+    margin-left:56px;
+    font-weight: normal;
+    padding:10px;
+    margin-bottom:20px;
   }
   .container-fluid{
     background-color:#fff;
     padding:20px;
     margin-left: 12px;
   }
-
-  .file{
-    display:inline-block;
-    position: relative;
-    bottom:12px;
-    width:90px;
-    height:90px;
-    border:2px dashed #a2a7b2;
-    background: url(../assets/upload.png) center center  no-repeat;
-  }
-  .file .fileInput{
+  .box{
     width:100%;
+    display:flex;
+  }
+  .box .left{
+    width:300px;
+    height:300px;
+    margin-left:60px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+
+  }
+  .box .left .title{
+    font-size:14px;
+    color:#1e1c1c;
+    padding-left:16px;
+    padding-top:16px;
+    padding-bottom:16px;
+  }
+  .box .left .item{
+    padding:20px 10px 20px 24px;
+    border-bottom:1px solid rgba(221,221,221,.5);
+    cursor:pointer;
+    transition:all 1s;
+  }
+  .box .left .item:hover{
+    background: #e4effd;
+    color: #328ffe;
+  }
+  .box .left .item:hover span{
+    color: #328ffe;
+  }
+  .box .left .active {
+    background: #e4effd;
+    color: #328ffe;
+  }
+  .box .left .active span{
+    color: #328ffe !important;
+  }
+  .box .left .item i {
+    padding-right:10px;
+    font-size:14px;
+  }
+  .box .left .item:nth-last-child(1){
+    border:none;
+  }
+  .box .left .item span{
+    font-size:12px;
+    color:#647787;
+  }
+  .box .right{
+    width:1080px;
     height:100%;
+  }
+  .box .right .info .top{
+    width:100%;
+    height:550px;
+    margin-left:80px;
+    padding-left:40px;
+    padding-top:10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+  }
+
+  .box .right .info .bottom{
+    width:100%;
+    margin-left:80px;
+    margin-top:30px;
+    padding-left:54px;
+    padding-top:10px;
+    padding-bottom:10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+  }
+  .box .right .info .bottom .title{
+    font-size:16px;
+    padding-top:14px;
+    padding-bottom:14px;
+  }
+
+  .box .right .desc{
+    width:100%;
+    height:500px;
+    margin-left:80px;
+    padding-left:40px;
+    padding-top:10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+  }
+  .box .right .desc .title{
+    font-size:14px;
+    color:#1e1c1c;
+    padding-top:6px;
+    padding-bottom:18px;
+  }
+  .box .right .seo{
+    width:100%;
+    height:500px;
+    margin-left:80px;
+    padding-left:40px;
+    padding-top:10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+  }
+  .box .right .seo .title{
+    font-size:14px;
+    color:#1e1c1c;
+    padding-top:14px;
+    padding-bottom:14px;
+  }
+  .box .right .image{
+    display:flex;
+  }
+  .box .right .image .i-left{
+    width:280px;
+    height:300px;
+    margin-left:40px;
+    padding-left:40px;
+    padding-top:10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+  }
+  .box .right .image .i-right{
+    position:relative;
+    width:620px;
+    margin-left:40px;
+    padding-left:40px;
+    padding-top:10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+  }
+  .box .right .image .title{
+    font-size:14px;
+    color:#1e1c1c;
+    padding-top:14px;
+    padding-bottom:14px;
+  }
+  .box .right .image .previewImg{
+    width:100px;
+    height:100px;
+    margin-left:42px;
+  }
+  .box .right .image .button{
+    position:relative;
+    margin-top:60px;
+  }
+  .fileInput{
+    position:absolute;
+    left:0;
+    top:0;
     opacity: 0;
   }
-  .previewImg{
-    position: relative;
-    width:90px;
-    height:90px;
-    top:15px;
-    margin-left:8px;
+  .box .right .image .but{
+    display:flex;
   }
+  .box .right .image .del{
+    margin-left:16px;
+  }
+  .box .right .image .i-right .i-right-box{
+    display:flex;
+    flex-flow: wrap;
+  }
+  .box .right .image .plImg{
+    width:120px;
+    height:100px;
+    border-radius: 4px;
+    margin-right:6px;
+    margin-bottom:6px;
+  }
+
+
 
   .item{
     display:flex;
     align-items: center;
     padding:20px;
   }
-  .item .left{
+  .item .item-left{
     width:110px;
     text-align: right;
     margin-right:15px;
   }
-  .item .right span{
+  .item .item-right span{
     border:1px solid #eee;
     text-align:center;
     padding:4px 6px;
     margin-right:6px;
     cursor:pointer;
   }
-  .item .right img{
+  .item .item-right img{
     display:inline-block;
     width:34px;
     height:34px;
@@ -715,25 +851,27 @@
     margin-right:6px;
     cursor:pointer;
   }
-  .item .right .active{
+  .item .item-right .active{
     border: 2px solid #409EFF;
   }
-  .imgBox{
-    position:relative;
-    display: inline-block;
-    width:120px;
-    height:120px;
-    margin-right:10px;
-    margin-top:10px;
-  }
 
-  .imgBox .button{
-    width:100%;
-    text-align: center;
+  #submit {
+    background: #fff;
+    margin: 40px 47px;
+    padding: 15px 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    position: relative;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
-  .imgBox .button span{
-    color:#409EFF;
-    cursor:pointer;
-    padding:0 4px;
+  #submit p{
+    margin: 0;
+    margin-top: 6px;
+    color: #d1d6da;
   }
 </style>
